@@ -37,8 +37,8 @@ app.get('/', function(req, res){
         imagen_usuario1=results.find( idusuario => idusuario = 1).usuarioimagen;
         nombre_usuario2=results.filter( item => item.idusuario === 2)[0].usuarionombre;
         imagen_usuario2=results.filter( item => item.idusuario === 2)[0].usuarioimagen;
-        //console.log(nombre_usuario2);
 
+        //renderizamos los datos del perfil de ambos usuarios
         res.render('index.ejs', {
             nombre_usuario1: nombre_usuario1,
             imagen_usuario1: imagen_usuario1,
@@ -46,16 +46,11 @@ app.get('/', function(req, res){
             imagen_usuario2: imagen_usuario2,
         });
     });
-
-    //res.sendFile(__dirname + '/index.html');
-
     // Escuchar la conexión de Socket.IO
     io.on('connection', function(socket){
         console.log('Usuario conectado');
-
-
-        // proba
-
+        
+        //actualizamos el perfil de ambos usuarios
         socket.on('actualizar1', function(nombre, imagen){
             conexion.query('UPDATE usuario SET usuarionombre = "'+nombre+'" WHERE idusuario = 1;', function(error, results, field){
                 if (error)
